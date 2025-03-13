@@ -4,11 +4,18 @@ def bisection(f, a, b, tol, max_iter=1000):
     if f(a) * f(b) >= 0:
         raise ValueError("No hay cambio de signo en el intervalo.")
     iterations = []
-    for _ in range(max_iter):
+    for i in range(max_iter):
         c = (a + b) / 2
         error = (b - a) / 2
         fc = f(c)
-        iterations.append((a, b, c, fc))
+        iterations.append({
+            "Iteración": i+1,
+            "a": a,
+            "b": b,
+            "c": c,
+            "f(c)": fc,
+            "Error": error
+        })
         if fc == 0 or error < tol:
             return c, iterations
         if f(a) * fc < 0:
@@ -21,12 +28,20 @@ def false_position(f, a, b, tol, max_iter=1000):
     if f(a) * f(b) >= 0:
         raise ValueError("No hay cambio de signo en el intervalo.")
     iterations = []
-    for _ in range(max_iter):
+    for i in range(max_iter):
         fa = f(a)
         fb = f(b)
         c = a - (fa * (b - a)) / (fb - fa)
         fc = f(c)
-        iterations.append((a, b, c, fc))
+        error = abs(b - a)
+        iterations.append({
+            "Iteración": i+1,
+            "a": a,
+            "b": b,
+            "c": c,
+            "f(c)": fc,
+            "Error": error
+        })
         if abs(fc) < tol:
             return c, iterations
         if fa * fc < 0:
